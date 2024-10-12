@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superhero Data</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
+        th { cursor: pointer; background-color: #f2f2f2; }
+        img { width: 30px; height: 30px; }
+    </style>
+</head>
+<body>
+    <h1>Superhero Database</h1>
+    <input type="text" id="search" placeholder="Search by name">
+    <select id="pageSize">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="all">All</option>
+    </select>
+    <div id="pagination"></div>
+    <table id="heroTable">
+        <thead>
+            <tr>
+                <th >Icon</th>
+                <th >Name</th>
+                <th >Full Name</th>
+                <th >Race</th>
+                <th >Gender</th>
+                <th >Height</th>
+                <th >Weight</th>
+                <th >Place of Birth</th>
+                <th >Alignment</th>
+                <th>Powerstats</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="app.js"></script>
+</body>
+</html>
