@@ -1,77 +1,85 @@
-let v = 20
-let currentpage = 1
-let heroes = []
+const superheroApp = {
+    itemsPerPage: 20, // nombre d'éléments par page
+    currentPage: 1, // page actuelle
+    superheroList: [], // liste des super-héros
+    // check : false,
+};
 
 const tableBody = document.querySelector('#heroTable tbody');
+const searchInput = document.getElementById('search');
 function loadData() {
+    let startIndex = (superheroApp.currentPage - 1) * superheroApp.itemsPerPage;
+    let endIndex = startIndex + superheroApp.itemsPerPage;
+    const paginatedData = superheroApp.superheroList.slice(startIndex, endIndex);
 
-    let start = ( currentpage- 1) * v
-    let end = start + v
-    const finaldata = heroes.slice(start, end)
-    finaldata.forEach(hero => {
-
+    paginatedData.forEach(superhero => {
         const row = document.createElement('tr');
-        const superheroespowers = `
-                intelligence: ${hero.powerstats.intelligence}<br>
-                strength: ${hero.powerstats.strength}<br>
-                speed: ${hero.powerstats.speed}<br>
-                durability: ${hero.powerstats.durability}<br>
-                power: ${hero.powerstats.power}<br>
-                combat: ${hero.powerstats.combat}<br>
-                `
+        const superheroPowers = `
+            intelligence: ${superhero.powerstats.intelligence}<br>
+            strength: ${superhero.powerstats.strength}<br>
+            speed: ${superhero.powerstats.speed}<br>
+            durability: ${superhero.powerstats.durability}<br>
+            power: ${superhero.powerstats.power}<br>
+            combat: ${superhero.powerstats.combat}<br>
+        `;
         row.innerHTML = `
-                <td><img src="${hero.images.xs}/>"</td>
-                <td>${hero.name}</td>
-                <td>${hero.biography.fullName}</td>
-                <td>${hero.appearance.race || 'N/A'}</td>
-                <td>${hero.appearance.gender || 'N/A'}</td>
-                <td>${hero.appearance.height.join(' / ')}</td>
-                <td>${hero.appearance.weight}</td>
-                <td>${hero.biography.placeOfBirth || 'N/A'}</td>
-                <td>${hero.biography.alignment}</td>
-                <td>${superheroespowers}</td>
-            `;
+            <td><img src="${superhero.images.xs}" /></td>
+            <td>${superhero.name}</td>
+            <td>${superhero.biography.fullName}</td>
+            <td>${superhero.appearance.race || 'N/A'}</td>
+            <td>${superhero.appearance.gender || 'N/A'}</td>
+            <td>${superhero.appearance.height.join(' / ')}</td>
+            <td>${superhero.appearance.weight}</td>
+            <td>${superhero.biography.placeOfBirth || 'N/A'}</td>
+            <td>${superhero.biography.alignment}</td>
+            <td>${superheroPowers}</td>
+        `;
         tableBody.appendChild(row);
     });
 }
 
 fetch('https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json')
     .then(response => response.json())
-    .then((data)=>{
-        heroes = data
-        pagination()
-        loadData()
+    .then(data => {
+        superheroApp.superheroList = data;
+        loadData(data);
     })
     .catch(error => console.error('Error fetching the superhero data:', error));
-    
-    
 
-
-
-const pagination = ()=>{
-    v = document.getElementById('pageSize').value
-    if  (v == 'all'){
-        currentpage = 1
-        v = heroes.length;
-    }else{
-        v=Number(v)
+const Pagination = () => {
+    superheroApp.itemsPerPage = document.getElementById('pageSize').value;
+    if (superheroApp.itemsPerPage === 'all') {
+        superheroApp.itemsPerPage = superheroApp.superheroList.length;
     }
-    let pages = Math.ceil(heroes.length/v)
-    let btn = document.getElementById('btn')
-    btn.innerHTML = ''
-    for(let i =1;i<=pages;i++){
-        let b = document.createElement('button')
-        b.textContent = i
-        b.addEventListener('click', ()=>{
-            currentpage = Number(b.textContent)
-            tableBody.innerHTML= `` 
-            loadData()
-        })
-        btn.appendChild(b)
+    console.log("yu",superheroApp.superheroList);
+    let totalPages = Math.ceil(superheroApp.superheroList.length / superheroApp.itemsPerPage);
+    let paginationButtons = document.getElementById('btn');
+    paginationButtons.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+        let button = document.createElement('button');
+        button.textContent = i;
+        button.addEventListener('click', () => {
+            superheroApp.currentPage = Number(button.textContent);
+            tableBody.innerHTML = '';
+            loadData();
+        });
+        paginationButtons.appendChild(button);
     }
-    currentpage = 1
-    tableBody.innerHTML= ``  
-    loadData()
+
+    superheroApp.currentPage = 1;
+    tableBody.innerHTML = '';
+    loadData();
 }
-
-document.getElementById('pageSize').addEventListener('click', pagination)
+const filterHeroes = () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    currentHeroes = superheroApp.superheroList.filter(hero => hero.name.toLowerCase().includes(searchTerm));
+    let temp = superheroApp.superheroList
+    superheroApp.superheroList = currentHeroes
+    currentPage = 1;
+    Pagination()
+    loadData();
+    superheroApp.superheroList = temp
+};
+document.getElementById('pageSize').addEventListener('click', Pagination);
+searchInput.addEventListener('input', filterHeroes);
