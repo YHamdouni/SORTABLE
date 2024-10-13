@@ -2,16 +2,20 @@ const superheroApp = {
     itemsPerPage: 20, // nombre d'éléments par page
     currentPage: 1, // page actuelle
     superheroList: [], // liste des super-héros
-    originalSuperheroList:[],
+    originalSuperheroList: [],
 };
 
 const tableBody = document.querySelector('#heroTable tbody');
 const searchInput = document.getElementById('search');
+
+//////////////////////////////////loadingdata/////////////////////////////////////////////////
 function loadData() {
     let startIndex = (superheroApp.currentPage - 1) * superheroApp.itemsPerPage;
     let endIndex = startIndex + superheroApp.itemsPerPage;
     const paginatedData = superheroApp.superheroList.slice(startIndex, endIndex);
-
+    superheroApp.superheroList.sort(function (a) {
+        return a.name
+    })
     paginatedData.forEach(superhero => {
         const row = document.createElement('tr');
         const superheroPowers = `
@@ -26,11 +30,11 @@ function loadData() {
             <td><img src="${superhero.images.xs}" /></td>
             <td>${superhero.name}</td>
             <td>${superhero.biography.fullName}</td>
-            <td>${superhero.appearance.race || 'N/A'}</td>
-            <td>${superhero.appearance.gender || 'N/A'}</td>
+            <td>${superhero.appearance.race}</td>
+            <td>${superhero.appearance.gender}</td>
             <td>${superhero.appearance.height.join(' / ')}</td>
             <td>${superhero.appearance.weight}</td>
-            <td>${superhero.biography.placeOfBirth || 'N/A'}</td>
+            <td>${superhero.biography.placeOfBirth}</td>
             <td>${superhero.biography.alignment}</td>
             <td>${superheroPowers}</td>
         `;
@@ -39,7 +43,7 @@ function loadData() {
 }
 
 
-
+///////////////////////////////////fetchingdata/////////////////////////////////////
 fetch('https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json')
     .then(response => response.json())
     .then(data => {
@@ -50,11 +54,7 @@ fetch('https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json')
     })
     .catch(error => console.error('Error fetching the superhero data:', error));
 
-
-
-
-
-
+//////////////////////////////pagination function ///////////////////////////////////
 function Pagination() {
     superheroApp.itemsPerPage = document.getElementById('pageSize').value;
     if (superheroApp.itemsPerPage === 'all') {
@@ -84,14 +84,14 @@ function Pagination() {
     loadData();
 }
 document.getElementById('pageSize').addEventListener('click', Pagination);
-
-
+///////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////filterheroes////////////////////////////////////////
 function filterHeroes() {
     const searchTerm = searchInput.value.toLowerCase();
     if (searchTerm === "") {
         superheroApp.superheroList = superheroApp.originalSuperheroList;
     } else {
-        superheroApp.superheroList = superheroApp.originalSuperheroList.filter(hero => 
+        superheroApp.superheroList = superheroApp.originalSuperheroList.filter(hero =>
             hero.name.toLowerCase().includes(searchTerm)
         );
     }
@@ -99,6 +99,56 @@ function filterHeroes() {
     Pagination();
     loadData();
 }
-
-
 searchInput.addEventListener('input', filterHeroes);
+///////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////Sort///////////////////////////////////////////////
+let currentSortOrder = {
+    Name: 'asc',
+    FullName: 'asc',
+    Race: 'asc',
+    Gender: 'asc',
+    PlaceofBirth: 'asc',
+    Alignment: 'asc'
+};
+
+function getValue(hero, type) {
+    if (type === "Name") {
+        return hero.name;
+    } else if (type === "FullName") {
+        return hero.biography.fullName;
+    } else if (type === "Race") {
+        return hero.appearance.race;
+    } else if (type === "Gender") {
+        return hero.appearance.gender;
+    } else if (type === "PlaceofBirth") {
+        return hero.biography.placeOfBirth;
+    } else if (type === "Alignment") {
+        return hero.biography.alignment;
+    }
+} function Sort() {
+    const headers = document.querySelectorAll('#heroTable th');
+    headers.forEach((header) => {
+        header.addEventListener('click', () => {
+            const type = header.getAttribute('id');
+            let sortOrder = currentSortOrder[type];
+            superheroApp.superheroList.sort((a, b) => {
+                const aValue = getValue(a, type); 
+                const bValue = getValue(b, type);
+                console.log(aValue);
+                console.log(bValue);
+                if (aValue === '' || aValue === null || aValue == '-' ) return 1;//|| aValue === NaN
+                if (bValue === '' || bValue === null || bValue == '-' ) return -1;
+                if (sortOrder === 'asc') {
+                    return aValue.localeCompare(bValue);
+                } else {
+                    return bValue.localeCompare(aValue);
+                }
+            });
+            currentSortOrder[type] = (sortOrder === 'asc') ? 'desc' : 'asc';
+            tableBody.innerHTML = '';
+            loadData();
+        });
+    });
+}
+
+Sort();

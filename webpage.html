@@ -10,10 +10,12 @@
         th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
         th { cursor: pointer; background-color: #f2f2f2; }
         img { width: 30px; height: 30px; }
+        input, select {margin: 10px;padding: 10px;font-size: 16px;border-radius:20px;}
+        div{text-align: center;}
     </style>
 </head>
 <body>
-    <h1>Superhero Database</h1>
+    <div>
     <input type="text" id="search" placeholder="Search by name">
     <select id="pageSize">
         <option value="10">10</option>
@@ -21,26 +23,27 @@
         <option value="50">50</option>
         <option value="100">100</option>
         <option value="all">All</option>
+    </div>
     </select>
     <div id="pagination"></div>
     <table id="heroTable">
         <thead>
             <tr>
-                <th data-sort="">Icon</th>
-                <th >Name</th>
-                <th >Full Name</th>
-                <th >Race</th>
-                <th >Gender</th>
-                <th >Height</th>
-                <th >Weight</th>
-                <th >Place of Birth</th>
-                <th >Alignment</th>
-                <th>Powerstats</th>
+                <th>Icon</th>
+                <th id="Name">Name</th>
+                <th id="FullName">Full Name</th>
+                <th id="Race">Race</th>
+                <th id="Gender">Gender</th>
+                <th id="Height">Height</th>
+                <th id="Weight">Weight</th>
+                <th id="PlaceofBirth">Place of Birth</th>
+                <th id="Alignment">Alignment</th>
+                <th id="Powerstats">Powerstats</th>
             </tr>
         </thead>
         <tbody></tbody>
     </table>
-    <div id="btn"></div>
+    <div id="btn" class="but"></div>
     <script src="app.js"></script>
 </body>
 </html>
