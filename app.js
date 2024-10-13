@@ -87,7 +87,7 @@ document.getElementById('pageSize').addEventListener('click', Pagination);
 ///////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////filterheroes////////////////////////////////////////
 function filterHeroes() {
-    const searchTerm = searchInput.value.toLowerCase();
+        const searchTerm = searchInput.value.toLowerCase();
     if (searchTerm === "") {
         superheroApp.superheroList = superheroApp.originalSuperheroList;
     } else {
@@ -95,9 +95,9 @@ function filterHeroes() {
             hero.name.toLowerCase().includes(searchTerm)
         );
     }
+    console.log(superheroApp.superheroList)
     superheroApp.currentPage = 1;
     Pagination();
-    loadData();
 }
 searchInput.addEventListener('input', filterHeroes);
 ///////////////////////////////////////////////////////////////////////////////////////
