@@ -2,7 +2,7 @@ const superheroApp = {
     itemsPerPage: 20, // nombre d'éléments par page
     currentPage: 1, // page actuelle
     superheroList: [], // liste des super-héros
-    // check : false,
+    originalSuperheroList:[],
 };
 
 const tableBody = document.querySelector('#heroTable tbody');
@@ -38,20 +38,31 @@ function loadData() {
     });
 }
 
+
+
 fetch('https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json')
     .then(response => response.json())
     .then(data => {
-        superheroApp.superheroList = data;
-        loadData(data);
+        superheroApp.originalSuperheroList = data; // Store the original list
+        superheroApp.superheroList = data; // Set the initial list to the fetched data
+        loadData();
+        Pagination();
     })
     .catch(error => console.error('Error fetching the superhero data:', error));
 
-const Pagination = () => {
+
+
+
+
+
+function Pagination() {
     superheroApp.itemsPerPage = document.getElementById('pageSize').value;
     if (superheroApp.itemsPerPage === 'all') {
+        superheroApp.currentPage = 1
         superheroApp.itemsPerPage = superheroApp.superheroList.length;
+    } else {
+        superheroApp.itemsPerPage = Number(superheroApp.itemsPerPage)
     }
-    console.log("yu",superheroApp.superheroList);
     let totalPages = Math.ceil(superheroApp.superheroList.length / superheroApp.itemsPerPage);
     let paginationButtons = document.getElementById('btn');
     paginationButtons.innerHTML = '';
@@ -62,6 +73,7 @@ const Pagination = () => {
         button.addEventListener('click', () => {
             superheroApp.currentPage = Number(button.textContent);
             tableBody.innerHTML = '';
+
             loadData();
         });
         paginationButtons.appendChild(button);
@@ -71,15 +83,22 @@ const Pagination = () => {
     tableBody.innerHTML = '';
     loadData();
 }
-const filterHeroes = () => {
-    const searchTerm = searchInput.value.toLowerCase();
-    currentHeroes = superheroApp.superheroList.filter(hero => hero.name.toLowerCase().includes(searchTerm));
-    let temp = superheroApp.superheroList
-    superheroApp.superheroList = currentHeroes
-    currentPage = 1;
-    Pagination()
-    loadData();
-    superheroApp.superheroList = temp
-};
 document.getElementById('pageSize').addEventListener('click', Pagination);
+
+
+function filterHeroes() {
+    const searchTerm = searchInput.value.toLowerCase();
+    if (searchTerm === "") {
+        superheroApp.superheroList = superheroApp.originalSuperheroList;
+    } else {
+        superheroApp.superheroList = superheroApp.originalSuperheroList.filter(hero => 
+            hero.name.toLowerCase().includes(searchTerm)
+        );
+    }
+    superheroApp.currentPage = 1;
+    Pagination();
+    loadData();
+}
+
+
 searchInput.addEventListener('input', filterHeroes);
