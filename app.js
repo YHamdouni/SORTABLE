@@ -69,6 +69,7 @@ function Pagination() {
 
     for (let i = 1; i <= totalPages; i++) {
         let button = document.createElement('button');
+        button.className="btn"
         button.textContent = i;
         button.addEventListener('click', () => {
             superheroApp.currentPage = Number(button.textContent);
@@ -87,7 +88,7 @@ document.getElementById('pageSize').addEventListener('click', Pagination);
 ///////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////filterheroes////////////////////////////////////////
 function filterHeroes() {
-        const searchTerm = searchInput.value.toLowerCase();
+    const searchTerm = searchInput.value.toLowerCase();
     if (searchTerm === "") {
         superheroApp.superheroList = superheroApp.originalSuperheroList;
     } else {
@@ -138,25 +139,25 @@ function getValue(hero, type) {
             return isNaN(WeightInkg) ? 0 : WeightInkg; // Return 0 for invalid heights
         }
         return 0;
-    } else if ((type === "Intelligence")){
-        return String(hero.powerstats.intelligence)
+    } else if ((type === "Intelligence")) {
+        return parseFloat(hero.powerstats.intelligence)
     }
-    else if ((type === "Strength")){
-        return String(hero.powerstats.strength)
+    else if ((type === "Strength")) {
+        return parseFloat(hero.powerstats.strength)
     }
-    else if ((type === "Speed")){
-        return String(hero.powerstats.speed)
+    else if ((type === "Speed")) {
+        return parseFloat(hero.powerstats.speed)
     }
-    else if ((type === "Durability")){
-        return String(hero.powerstats.durability)
+    else if ((type === "Durability")) {
+        return parseFloat(hero.powerstats.durability)
     }
-    else if ((type === "Power")){
-        return String(hero.powerstats.power)
+    else if ((type === "Power")) {
+        return parseFloat(hero.powerstats.power)
     }
-    else if ((type === "Combat")){
-        return String(hero.powerstats.combat)
+    else if ((type === "Combat")) {
+        return parseFloat(hero.powerstats.combat)
     }
-    
+
 } function Sort() {
     const headers = document.querySelectorAll('#heroTable th');
     headers.forEach((header) => {
@@ -166,13 +167,13 @@ function getValue(hero, type) {
             superheroApp.superheroList.sort((a, b) => {
                 const aValue = getValue(a, type);
                 const bValue = getValue(b, type);
-                
-             
+
+
                 console.log(aValue);
                 console.log(bValue);
                 if (aValue === '' || aValue === null || aValue === '-' || aValue === undefined) return 1;//|| aValue === NaN
                 if (bValue === '' || bValue === null || bValue === '-' || bValue === undefined) return -1;//|| bValue === NaN
-                if (type === "Height" || type === "Weight" ) {
+                if (type === "Height" || type === "Weight" || type==="Intelligence" || type==="Strength" || type==="Speed" || type==="Durability" || type==="Power" || type==="Combat") {
                     return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
                 } else {
                     return sortOrder === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);

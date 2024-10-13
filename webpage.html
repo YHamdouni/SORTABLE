@@ -1,59 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Superhero Data</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
-        th { cursor: pointer; background-color: #f2f2f2; }
-        img { width: 30px; height: 30px; }
-        input, select {margin: 10px;padding: 10px;font-size: 16px;border-radius:20px;}
-        div{text-align: center;}
-        
+        /* body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            cursor: pointer;
+            background-color: #f2f2f2;
+        }
+
+        img {
+            width: 30px;
+            height: 30px;
+        }
+
+        input,
+        select {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 20px;
+        }
+
+        div {
+            text-align: center;
+        } */
     </style>
 </head>
+
 <body>
-    <h1 align="center">Superheros Data</h1>
-    <div>
-    <input type="text" id="search" placeholder="Search by name">
-    <select id="pageSize">
-        <option value="10">10</option>
-        <option value="20" selected>20</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-        <option value="all">All</option>
-    </div>
-    </select>
-    <div id="pagination"></div>
-    <table id="heroTable">
-        <thead>
-            <tr>
-                <th rowspan = 2>Icon</th>
-                <th id="Name"rowspan = 2>Name</th>
-                <th id="FullName" rowspan = 2>Full Name</th>
-                <th id="Race" rowspan = 2>Race</th>
-                <th id="Gender"rowspan = 2>Gender</th>
-                <th id="Height" rowspan = 2>Height</th>
-                <th id="Weight" rowspan = 2>Weight</th>
-                <th id="PlaceofBirth" rowspan = 2>Place of Birth</th>
-                <th id="Alignment" rowspan = 2>Alignment</th>
-                <th id="po"   colspan="6" style="text-align: center;" >Powerstats</th>
-            </tr>
-            <tr align =center>
-                <th id="Intelligence">Intelligence</th>
-                <th id="Strength"> Strength</th>
-                <th id="Speed"> Speed</th>
-                <th id="Durability"> Durability</th>
-                <th id="Power"> Power</th>
-                <th id="Combat"> Combat</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-    <div id="btn" class="but"></div>
+
+
+    <main class="table">
+        <section class="table_header">Superheros Data</section>
+        <div>
+            <input type="text" id="search" placeholder="Search by name">
+            <select id="pageSize">
+                <option value="10">10</option>
+                <option value="20" selected>20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="all">All</option>
+        </div>
+        </select>
+        <section class="table_body">
+            <div id="pagination"></div>
+            <table id="heroTable">
+                <thead>
+                    <tr>
+                        <th rowspan=2>Icon</th>
+                        <th id="Name" rowspan=2>Name</th>
+                        <th id="FullName" rowspan=2>Full Name</th>
+                        <th id="Race" rowspan=2>Race</th>
+                        <th id="Gender" rowspan=2>Gender</th>
+                        <th id="Height" rowspan=2>Height</th>
+                        <th id="Weight" rowspan=2>Weight</th>
+                        <th id="PlaceofBirth" rowspan=2>Place of Birth</th>
+                        <th id="Alignment" rowspan=2>Alignment</th>
+                        <th id="po" colspan="6" style="text-align: center;">Powerstats</th>
+                    </tr>
+                    <tr align=center>
+                        <th id="Intelligence">Intelligence</th>
+                        <th id="Strength"> Strength</th>
+                        <th id="Speed"> Speed</th>
+                        <th id="Durability"> Durability</th>
+                        <th id="Power"> Power</th>
+                        <th id="Combat"> Combat</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+        <div c id="btn" class="btn"></div>
+
+
+    </main>
     <script src="app.js"></script>
 </body>
+
 </html>
