@@ -124,7 +124,22 @@ function getValue(hero, type) {
         return hero.biography.placeOfBirth;
     } else if (type === "Alignment") {
         return hero.biography.alignment;
+    } else if (type === "Height") {
+        const heightStr = hero.appearance.height[1];
+        if (typeof heightStr === 'string') {
+            const heightInMeters = heightStr.includes('meters') ? parseFloat(heightStr) * 100 : parseFloat(heightStr);
+            return isNaN(heightInMeters) ? 0 : heightInMeters; // Return 0 for invalid heights
+        }
+        return 0;
+    } else if (type === "Weight") {
+        const weightStr = hero.appearance.weight[1];
+        if (typeof weightStr === 'string') {
+            const WeightInkg = weightStr.includes('tons') ? parseFloat(weightStr) * 1000 : parseFloat(weightStr);
+            return isNaN(WeightInkg) ? 0 : WeightInkg; // Return 0 for invalid heights
+        }
+        return 0;
     }
+    
 } function Sort() {
     const headers = document.querySelectorAll('#heroTable th');
     headers.forEach((header) => {
@@ -132,16 +147,18 @@ function getValue(hero, type) {
             const type = header.getAttribute('id');
             let sortOrder = currentSortOrder[type];
             superheroApp.superheroList.sort((a, b) => {
-                const aValue = getValue(a, type); 
+                const aValue = getValue(a, type);
                 const bValue = getValue(b, type);
+                
+             
                 console.log(aValue);
                 console.log(bValue);
-                if (aValue === '' || aValue === null || aValue == '-' ) return 1;//|| aValue === NaN
-                if (bValue === '' || bValue === null || bValue == '-' ) return -1;
-                if (sortOrder === 'asc') {
-                    return aValue.localeCompare(bValue);
+                if (aValue === '' || aValue === null || aValue === '-' || aValue === undefined) return 1;//|| aValue === NaN
+                if (bValue === '' || bValue === null || bValue === '-' || bValue === undefined) return -1;//|| bValue === NaN
+                if (type === "Height" || type === "Weight" ) {
+                    return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
                 } else {
-                    return bValue.localeCompare(aValue);
+                    return sortOrder === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
                 }
             });
             currentSortOrder[type] = (sortOrder === 'asc') ? 'desc' : 'asc';
