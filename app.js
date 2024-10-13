@@ -13,9 +13,6 @@ function loadData() {
     let startIndex = (superheroApp.currentPage - 1) * superheroApp.itemsPerPage;
     let endIndex = startIndex + superheroApp.itemsPerPage;
     const paginatedData = superheroApp.superheroList.slice(startIndex, endIndex);
-    superheroApp.superheroList.sort(function (a) {
-        return a.name
-    })
     paginatedData.forEach(superhero => {
         const row = document.createElement('tr');
         const superheroPowers = `
@@ -47,8 +44,9 @@ function loadData() {
 fetch('https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json')
     .then(response => response.json())
     .then(data => {
-        superheroApp.originalSuperheroList = data; // Store the original list
-        superheroApp.superheroList = data; // Set the initial list to the fetched data
+        const sortedData = data.sort((a, b) => a.name.localeCompare(b.name));
+        superheroApp.originalSuperheroList = sortedData; // Store the original list
+        superheroApp.superheroList = sortedData; // Set the initial list to the fetched data
         loadData();
         Pagination();
     })
@@ -74,7 +72,6 @@ function Pagination() {
         button.addEventListener('click', () => {
             superheroApp.currentPage = Number(button.textContent);
             tableBody.innerHTML = '';
-
             loadData();
         });
         paginationButtons.appendChild(button);
@@ -103,13 +100,22 @@ function filterHeroes() {
 searchInput.addEventListener('input', filterHeroes);
 ///////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////Sort///////////////////////////////////////////////
+//Sorting data in table by columns
 let currentSortOrder = {
     Name: 'asc',
     FullName: 'asc',
     Race: 'asc',
     Gender: 'asc',
     PlaceofBirth: 'asc',
-    Alignment: 'asc'
+    Alignment: 'asc',
+    Height : 'asc',
+    Weight : 'asc',
+    Intelligence : 'asc',
+    Strength : 'asc',
+    Speed : 'asc',
+    Durability : 'asc',
+    Power : 'asc',
+    Combat : 'asc'
 };
 
 function getValue(hero, type) {

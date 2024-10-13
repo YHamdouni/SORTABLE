@@ -6,6 +6,11 @@ td img {
     vertical-align: middle;
 }
 
+th {
+    cursor: pointer;
+    background-color: rgba(212, 198, 198, 0.333);
+}
+
 body {
     background: url(html_table.jpg) center/cover fixed;
     min-height: 100vh;
@@ -25,16 +30,27 @@ main.table{
 }
 table , th , td{
     padding: 1rem;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th:hover{
+    background-color: rgb(199, 196, 196);
+}
+tr:hover{
+background-color: rgb(233, 233, 233);
 }
 .table_header{
     width: 100%;
     height: 10%;
-    background-color: #fff4;
+    background-color: rgba(247, 228, 228, 0.267);
     padding: .8rem 1rem;
     display: flex;
     justify-content: center;
 
 }
+
+
 .select {
     display: flex;
     justify-content: center;
@@ -45,10 +61,16 @@ table , th , td{
     background-color: #fffb;
     margin: 0.8rem auto;
     border-radius: .6rem;
-    /* pver */
+    overflow: auto;
 }
 .btn{
+    cursor: pointer;
     display:  flex;
     align-items: center;
     justify-content: center;
+}
+
+.btn:hover{
+    background-color: rgb(119, 119, 119);
+    color: rgb(255, 255, 255);
 }
