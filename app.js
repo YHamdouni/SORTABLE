@@ -19,12 +19,12 @@ function loadData() {
     paginatedData.forEach(superhero => {
         const row = document.createElement('tr');
         const superheroPowers = `
-            intelligence: ${superhero.powerstats.intelligence}<br>
-            strength: ${superhero.powerstats.strength}<br>
-            speed: ${superhero.powerstats.speed}<br>
-            durability: ${superhero.powerstats.durability}<br>
-            power: ${superhero.powerstats.power}<br>
-            combat: ${superhero.powerstats.combat}<br>
+           <td> ${superhero.powerstats.intelligence}</td>
+          <td>  ${superhero.powerstats.strength}</td>
+          <td>  ${superhero.powerstats.speed}</td>
+          <td>  ${superhero.powerstats.durability}</td>
+          <td>  ${superhero.powerstats.power}</td>
+           <td>  ${superhero.powerstats.combat}</td>
         `;
         row.innerHTML = `
             <td><img src="${superhero.images.xs}" /></td>
@@ -36,7 +36,7 @@ function loadData() {
             <td>${superhero.appearance.weight}</td>
             <td>${superhero.biography.placeOfBirth}</td>
             <td>${superhero.biography.alignment}</td>
-            <td>${superheroPowers}</td>
+            ${superheroPowers}
         `;
         tableBody.appendChild(row);
     });
@@ -138,6 +138,23 @@ function getValue(hero, type) {
             return isNaN(WeightInkg) ? 0 : WeightInkg; // Return 0 for invalid heights
         }
         return 0;
+    } else if ((type === "Intelligence")){
+        return String(hero.powerstats.intelligence)
+    }
+    else if ((type === "Strength")){
+        return String(hero.powerstats.strength)
+    }
+    else if ((type === "Speed")){
+        return String(hero.powerstats.speed)
+    }
+    else if ((type === "Durability")){
+        return String(hero.powerstats.durability)
+    }
+    else if ((type === "Power")){
+        return String(hero.powerstats.power)
+    }
+    else if ((type === "Combat")){
+        return String(hero.powerstats.combat)
     }
     
 } function Sort() {
