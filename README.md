@@ -71,9 +71,5 @@ sortable/
 Add screenshots here to show off the table, search, and detail view if available.
 
 👨‍💻 Author
-Yassine Hamdoun
-🔗 View Repo
-
-📜 License
-This project is for educational and entertainment purposes. Use it to take over the superhero world… responsibly. 🦹
-
+[Yassine Hamdouni](https://github.com/YHamdouni)
+```
